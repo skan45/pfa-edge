@@ -1,12 +1,12 @@
 terraform {
-    required_providers {
-        aws = {
-            source  = "hashicorp/aws"
-            version = "~> 4.55" # Replace with your desired version
-        }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.55"
     }
+  }
 
-    required_version = ">= 1.3.0" # Replace with your desired Terraform version
+  required_version = ">= 1.3.0"
 }
 
 provider "aws" {
@@ -15,8 +15,8 @@ provider "aws" {
 
 # 1. VPC Setup
 resource "aws_vpc" "traffic_vpc" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
     Name = "TrafficLight-VPC"
@@ -60,11 +60,11 @@ resource "aws_route_table_association" "public_rta" {
 
 # 5. EC2 Spot Instance for SUMO
 resource "aws_spot_instance_request" "sumo_simulator" {
-  ami           = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 LTS
-  instance_type = "t3.medium"
-  spot_price    = "0.02" # ~$0.02/hour
-  wait_for_fulfillment = true
-  subnet_id     = aws_subnet.public.id
+  ami                         = data.aws_ami.latest_ubuntu.id
+  instance_type               = "t3.medium"
+  spot_price                  = "0.02" # ~$0.02/hour
+  wait_for_fulfillment        = true
+  subnet_id                   = aws_subnet.public.id
   associate_public_ip_address = true
 
   tags = {
@@ -82,7 +82,7 @@ resource "aws_spot_instance_request" "sumo_simulator" {
 
 # 6. S3 Bucket for Models/Data
 resource "aws_s3_bucket" "traffic_data" {
-  bucket = "traffic-sim-data-${random_id.bucket_suffix.hex}"
+  bucket        = "traffic-sim-data-${random_id.bucket_suffix.hex}"
   force_destroy = true
 }
 
@@ -112,7 +112,7 @@ resource "aws_kinesis_stream" "traffic_stream" {
 # 9. Lambda Function for Processing
 resource "aws_lambda_function" "traffic_processor" {
   function_name = "TrafficDataProcessor"
-  runtime       = "python3.9"
+  runtime       = "python3.13"
   handler       = "lambda_function.lambda_handler"
   role          = aws_iam_role.lambda_exec.arn
   filename      = "lambda_function.zip" # Your packaged Lambda code
@@ -178,4 +178,14 @@ output "kinesis_stream_name" {
 
 output "dynamodb_table_name" {
   value = aws_dynamodb_table.traffic_states.name
+}
+
+# Data
+data "aws_ami" "latest_ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"]
+  }
 }
