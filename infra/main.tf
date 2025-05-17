@@ -143,20 +143,20 @@ resource "aws_kinesis_stream" "traffic_stream" {
 }
 
 # 9. Lambda Function for Processing
-resource "aws_lambda_function" "traffic_processor" {
-  function_name = "TrafficDataProcessor"
-  runtime       = "python3.13"
-  handler       = "lambda_function.lambda_handler"
-  role          = aws_iam_role.lambda_exec.arn
-  filename      = "lambda_function.zip" # Your packaged Lambda code
+# resource "aws_lambda_function" "traffic_processor" {
+#   function_name = "TrafficDataProcessor"
+#   runtime       = "python3.13"
+#   handler       = "lambda_function.lambda_handler"
+#   role          = aws_iam_role.lambda_exec.arn
+#   # filename      = "lambda_function.zip" #uncomment when using the actual zip file
 
-  environment {
-    variables = {
-      DYNAMODB_TABLE = aws_dynamodb_table.traffic_states.name
-      KINESIS_STREAM = aws_kinesis_stream.traffic_stream.name
-    }
-  }
-}
+#   environment {
+#     variables = {
+#       DYNAMODB_TABLE = aws_dynamodb_table.traffic_states.name
+#       KINESIS_STREAM = aws_kinesis_stream.traffic_stream.name
+#     }
+#   }
+# }
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_exec" {
