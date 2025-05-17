@@ -66,6 +66,8 @@ resource "aws_spot_instance_request" "sumo_simulator" {
   wait_for_fulfillment        = true
   subnet_id                   = aws_subnet.public.id
   associate_public_ip_address = true
+  key_name                    = aws_key_pair.sumo_key.key_name # Add key pair for SSH access
+  vpc_security_group_ids      = [aws_security_group.sumo_sg.id] # Add security group for SSH access
 
   tags = {
     Name = "SUMO-Simulator"
@@ -78,6 +80,37 @@ resource "aws_spot_instance_request" "sumo_simulator" {
               apt-get install -y sumo sumo-tools python3-pip
               pip3 install boto3
               EOF
+}
+
+# Create a key pair for SSH access
+resource "aws_key_pair" "sumo_key" {
+  key_name   = "sumo-simulator-key"
+  public_key = file("~/.ssh/id_rsa.pub") # Replace with your public key path
+}
+
+# Create a security group allowing SSH access
+resource "aws_security_group" "sumo_sg" {
+  name        = "sumo-simulator-sg"
+  description = "Allow SSH access to SUMO simulator"
+  vpc_id      = aws_vpc.main.id # Replace with your VPC ID or reference
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Restrict this to your IP for better security
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "SUMO-Simulator-SG"
+  }
 }
 
 # 6. S3 Bucket for Models/Data
