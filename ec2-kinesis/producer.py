@@ -5,7 +5,7 @@ import os
 
 
 stream_name = 'TrafficDataStream'
-region_name = 'eu-west-1'  
+region_name = 'us-east-1'  
 screenshots_dir = ''  # Where SUMO saves screenshots
 interval = 10  # in seconds
 
