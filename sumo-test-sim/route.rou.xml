@@ -1,0 +1,13 @@
+<routes>
+    <!-- Vehicle type -->
+    <vType id="car" accel="1.0" decel="4.5" length="5" minGap="2.5" maxSpeed="13.9" guiShape="passenger" color="0,0,255"/>
+
+    <!-- Vehicle flows -->
+    <!-- Main road flow (5 cars each direction) -->
+    <flow id="main_flow_1" type="car" begin="0" end="1000" number="100" from="e1" to="e2" departLane="free" departSpeed="max"/>
+    <flow id="main_flow_2" type="car" begin="0"     end="1000" number="100" from="e2" to="e1" departLane="free" departSpeed="max"/>
+
+    <!-- Side road flow (5 cars each direction) -->
+    <flow id="side_flow_1" type="car" begin="0" end="1000" number="5" from="e3" to="e4" departLane="free" departSpeed="max"/>
+    <flow id="side_flow_2" type="car" begin="0" end="1000" number="5" from="e4" to="e3" departLane="free" departSpeed="max"/>
+</routes>
