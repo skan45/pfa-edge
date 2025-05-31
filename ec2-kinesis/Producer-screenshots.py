@@ -10,7 +10,7 @@ VIEW_ID = "View #0"
 SIMULATION_DURATION = 3600  # 1 hour of simulation (3600 steps)
 SIMULATION_SPEED = 5.0  # 1.0 = real time
 stream_name = 'TrafficDataStream'
-region_name = 'eu-west-1'  
+region_name = 'us-east-1'  
 
 def initialize_simulation():
     """Initialize SUMO and create output directory."""
