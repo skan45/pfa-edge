@@ -37,7 +37,14 @@ This setup ensures a scalable, secure, and reproducible deployment environment.
 
 ## SUMO Simulation Preview
 
-> ![Capture d'écran 2025-05-30 134123](https://github.com/user-attachments/assets/61a08eef-9586-4726-bf64-f483f65500c1)
+> ![sumo-simulation](https://github.com/user-attachments/assets/61a08eef-9586-4726-bf64-f483f65500c1)
+
+## Project Architecture
+
+Below is the architecture diagram illustrating the components and data flow of the intelligent traffic management platform:
+
+> ![project-architecture](https://github.com/user-attachments/assets/04f08cee-3eb9-4599-9e39-78107f80f064)
+
 
 
 
