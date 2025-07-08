@@ -30,6 +30,8 @@ The infrastructure is provisioned using **Terraform**, which automates the follo
 - Configuration of **AWS Lambda** functions for image processing and traffic light control.
 - Use of **AWS Kinesis** for real-time image streaming.
 - Storage of Terraform backend state securely in an **S3 bucket** with state locking enabled.
+- Setup of **DynamoDB** tables for storing vehicle count and traffic signal data.
+- Configuration of **IAM roles and policies** to securely grant necessary permissions to Lambda functions, EC2 instances, and Kinesis streams.
 
 This setup ensures a scalable, secure, and reproducible deployment environment.
 
